@@ -1,0 +1,98 @@
+.login-container {
+    height: 100vh;
+    display: flex;
+  }
+  
+  .login-grid {
+    display: flex;
+    flex: 1;
+  }
+  
+  .login-left {
+    flex: 1;
+    background: url('/assets/login-background.jpeg') no-repeat center center;
+    background-size: cover;
+  }
+  
+  .login-right {
+    flex: 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #f2f4f7;
+    padding: 2rem;
+  }
+  
+  .form-card {
+    background-color: #ffffff;
+    padding: 2.5rem;
+    border-radius: 12px;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+    width: 100%;
+    max-width: 600px;
+    text-align: center;
+  }
+  
+  .logo {
+    max-width: 150px;
+    margin-bottom: 1.5rem;
+  }
+  
+  .title {
+    font-weight: 600;
+    margin-bottom: 2rem;
+    color: #333;
+  }
+  
+  .field {
+    margin-bottom: 1.5rem;
+    text-align: left;
+  }
+  
+  .field label {
+    display: block;
+    margin-bottom: 0.5rem;
+    font-size: 0.95rem;
+    color: #555;
+  }
+  
+  input[pInputText] {
+    width: 100%;
+    padding: 0.75rem 1rem;
+    border: 1px solid #ccc;
+    border-radius: 25px;
+    font-size: 1rem;
+    box-sizing: border-box;
+  }
+  
+  .actions {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 1rem;
+  }
+  
+  .actions a {
+    font-size: 0.9rem;
+    text-decoration: none;
+    color: #007ad9;
+  }
+  
+  .actions a:hover {
+    text-decoration: underline;
+  }
+  
+  @media (max-width: 768px) {
+    .login-grid {
+      flex-direction: column;
+    }
+    .login-left,
+    .login-right {
+      flex: none;
+      width: 100%;
+      min-height: 200px;
+    }
+    .form-card {
+      margin-top: 2rem;
+    }
+  }
+  

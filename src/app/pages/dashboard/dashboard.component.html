@@ -1,0 +1,88 @@
+<div class="dashboard-container">
+    <div class="header">
+        <img src="assets/logo.png" class="logo" alt="Logo" />
+        <h1 class="title">DataHound</h1>
+        <div class="actions">
+            <button pButton type="button" [icon]="darkMode ? 'pi pi-sun' : 'pi pi-moon'" (click)="toggleTheme()"
+                class="p-button-text p-button-plain p-mr-2" aria-label="Toggle Theme">
+            </button>
+            <button pButton type="button" icon="pi pi-sign-out" (click)="onLogout()"
+                class="p-button-text p-button-plain" aria-label="Sair">
+            </button>
+        </div>
+
+    </div>
+
+    <h2 class="subtitle">Seu hub definitivo de inteligência para afiliados</h2>
+
+    <p-card style="padding: 1.5rem;">
+        <div class="p-fluid grid">
+            <div class="col-12 md:col-2">
+                <input pInputText type="number" [(ngModel)]="comissaoMin" placeholder="Comissão Min. USD/EUR" />
+            </div>
+            <div class="col-12 md:col-2">
+                <input pInputText type="number" [(ngModel)]="comissaoMax" placeholder="Comissão Max. USD/EUR" />
+            </div>
+            <div class="col-12 md:col-2">
+                <input pInputText type="number" [(ngModel)]="comissaoMinReais" placeholder="Comissão Min. R$" />
+            </div>
+            <div class="col-12 md:col-2">
+                <input pInputText type="number" [(ngModel)]="comissaoMaxReais" placeholder="Comissão Max. R$" />
+            </div>
+            <div class="col-12 md:col-2">
+                <input pInputText type="number" [(ngModel)]="trafegoMin" placeholder="Tráfego Min." />
+            </div>
+            <div class="col-12 md:col-2">
+                <input pInputText type="number" [(ngModel)]="trafegoMax" placeholder="Tráfego Max." />
+            </div>
+            <div class="col-12 flex justify-content-end mt-3 gap-2">
+                <div style="display: flex; gap: 0.5rem;">
+                    <button pButton label="Filtrar" icon="pi pi-filter" (click)="filter()"
+                        style="width: auto;"></button>
+                    <button pButton label="Limpar" icon="pi pi-times" (click)="clearFilters()"
+                        class="p-button-secondary" style="width: auto;"></button>
+                </div>
+            </div>
+        </div>
+    </p-card>
+
+    <p-table [value]="filteredProducts" [paginator]="true" [rows]="10" [loading]="loading" [responsive]="true"
+        emptyMessage="Nenhum dado encontrado" sortMode="multiple" [styleClass]="darkMode ? 'dark-table' : ''">
+        <ng-template pTemplate="header">
+            <tr>
+                <th pSortableColumn="plataforma">Plataforma <p-sortIcon field="plataforma"></p-sortIcon></th>
+                <th pSortableColumn="produto">Produto <p-sortIcon field="produto"></p-sortIcon></th>
+                <th pSortableColumn="produtoId">Produto ID <p-sortIcon field="produtoId"></p-sortIcon></th>
+                <th>Página de Vendas</th>
+                <th>Domínio</th>
+                <th>Moeda</th>
+                <th>Comissão Média USD/EUR</th>
+                <th>Comissão Média R$</th>
+                <th>Tráfego Total</th>
+                <th>Comp. Mês Ant.</th>
+                <th>Comp. Penult. Mês</th>
+                <th>Top 1 País (%)</th>
+                <th>Top 2 País (%)</th>
+                <th>Top 3 País (%)</th>
+            </tr>
+        </ng-template>
+        <ng-template pTemplate="body" let-product>
+            <tr>
+                <td>{{ product.plataforma }}</td>
+                <td>{{ product.produto }}</td>
+                <td>{{ product.produtoId }}</td>
+                <td><a [href]="product.paginaVendas" target="_blank">Acessar</a></td>
+                <td>{{ product.dominio }}</td>
+                <td>{{ product.moeda }}</td>
+                <td>{{ product.comissaoMediaUsdEur }}</td>
+                <td>{{ product.comissaoMediaReais }}</td>
+                <td>{{ product.trafegoTotal }}</td>
+                <td>{{ product.comparacaoMesAnterior }}</td>
+                <td>{{ product.comparacaoPenultimoMes }}</td>
+                <td>{{ product.top1Pais }} ({{ product.top1Percentual }})</td>
+                <td>{{ product.top2Pais }} ({{ product.top2Percentual }})</td>
+                <td>{{ product.top3Pais }} ({{ product.top3Percentual }})</td>
+            </tr>
+        </ng-template>
+    </p-table>
+</div>

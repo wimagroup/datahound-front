@@ -1,1 +1,56 @@
-/* You can add global styles to this file, and also import other style files */
+body {
+    background-color: #f5f6f8;
+    margin: 0;
+    font-family: var(--font-family);
+}
+
+.dashboard-container {
+    padding: 2rem;
+}
+
+.p-card {
+    background-color: #ffffff;
+    border-radius: 8px;
+}
+
+.dark-mode {
+    background-color: #1f1f1f;
+    color: #f0f0f0;
+}
+
+.dark-mode .p-card {
+    background-color: #2c2c2c;
+    color: #f0f0f0;
+}
+
+.dark-mode .p-inputtext {
+    background-color: #3a3a3a;
+    color: #f0f0f0;
+}
+
+.dark-mode .p-button {
+    border: none;
+}
+
+.dark-mode a {
+    color: #90caf9;
+}
+
+.dark-mode .p-datatable,
+.dark-mode .p-datatable-wrapper,
+.dark-mode .p-datatable .p-datatable-thead > tr > th,
+.dark-mode .p-datatable .p-datatable-tbody > tr > td {
+    background-color: #2c2c2c !important;
+    color: #f0f0f0 !important;
+    border-color: #444 !important;
+}
+
+.dark-mode .p-datatable .p-datatable-tbody > tr:hover {
+    background-color: #3a3a3a !important;
+}
+
+.dark-mode .p-paginator {
+    background-color: #2c2c2c;
+    color: #f0f0f0;
+    border-top: 1px solid #444;
+}

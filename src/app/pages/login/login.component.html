@@ -1,0 +1,39 @@
+<p-toast></p-toast>
+<div class="login-container">
+  <div class="login-grid">
+    <div class="login-left"></div>
+    <div class="login-right">
+      <div class="form-card">
+        <img src="assets/logo.png" alt="Logo" class="logo" />
+        <h2 class="title">Seja bem-vindo!</h2>
+
+        <form [formGroup]="loginForm" (ngSubmit)="onSubmit()" class="p-fluid">
+          <div class="field">
+            <label for="email">Usuário</label>
+            <input id="email" type="email" pInputText formControlName="email" placeholder="Digite seu usuário" />
+          </div>
+          <div class="field">
+            <label for="password">Senha</label>
+            <input id="password" type="password" pInputText formControlName="password" placeholder="Digite sua senha" />
+          </div>
+          <button pButton type="submit"
+            class="p-button p-button-lg p-button-primary w-full"
+            style="border-radius: 30px; height: 40px; font-size: medium;"
+            [disabled]="loading">
+            <ng-container *ngIf="!loading">
+              <span class="p-button-label">Entrar</span>
+            </ng-container>
+            <ng-container *ngIf="loading">
+              <i class="pi pi-spin pi-spinner"></i>
+              <span class="p-button-label">Entrando...</span>
+            </ng-container>
+          </button>
+          <div class="actions">
+            <a href="#">Esqueci minha senha</a>
+            <a href="#">Cadastre-se</a>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
