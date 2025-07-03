@@ -77,8 +77,16 @@
                 <td>{{ product.comissaoMediaUsdEur }}</td>
                 <td>{{ product.comissaoMediaReais }}</td>
                 <td>{{ product.trafegoTotal }}</td>
-                <td>{{ product.comparacaoMesAnterior }}</td>
-                <td>{{ product.comparacaoPenultimoMes }}</td>
+                <td>
+                    <span [ngClass]="getComparisonClass(product.comparacaoMesAnterior)">
+                        {{ product.comparacaoMesAnterior }}
+                    </span>
+                </td>
+                <td>
+                    <span [ngClass]="getComparisonClass(product.comparacaoPenultimoMes)">
+                        {{ product.comparacaoPenultimoMes }}
+                    </span>
+                </td>
                 <td>{{ product.top1Pais }} ({{ product.top1Percentual }})</td>
                 <td>{{ product.top2Pais }} ({{ product.top2Percentual }})</td>
                 <td>{{ product.top3Pais }} ({{ product.top3Percentual }})</td>
