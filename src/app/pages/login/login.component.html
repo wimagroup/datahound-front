@@ -16,10 +16,8 @@
             <label for="password">Senha</label>
             <input id="password" type="password" pInputText formControlName="password" placeholder="Digite sua senha" />
           </div>
-          <button pButton type="submit"
-            class="p-button p-button-lg p-button-primary w-full"
-            style="border-radius: 30px; height: 40px; font-size: medium;"
-            [disabled]="loading">
+          <button pButton type="submit" class="p-button p-button-lg p-button-primary w-full"
+            style="border-radius: 30px; height: 40px; font-size: medium;" [disabled]="loading">
             <ng-container *ngIf="!loading">
               <span class="p-button-label">Entrar</span>
             </ng-container>
@@ -29,11 +27,37 @@
             </ng-container>
           </button>
           <div class="actions">
-            <a href="#">Esqueci minha senha</a>
-            <a href="#">Cadastre-se</a>
+            <a href="#" (click)="abrirModalRecuperarSenha($event)">Esqueci minha senha</a>
+            <a href="https://datahound.shop" target="_blank" rel="noopener noreferrer">Cadastre-se</a>
           </div>
         </form>
       </div>
     </div>
   </div>
+
+  <p-dialog [(visible)]="mostrarModalRecuperarSenha" [modal]="true" [closable]="true" [dismissableMask]="true"
+    [draggable]="false" [resizable]="false" [style]="{width: '90vw', maxWidth: '450px'}" [baseZIndex]="10000"
+    [showHeader]="false" contentStyle="max-height:70vh; overflow:auto;" styleClass="custom-dialog-blur">
+    <form [formGroup]="emailRecuperacaoForm" class="p-fluid">
+      <h2>Recuperar Senha</h2>
+      <p>
+        Digite seu e-mail e enviaremos uma nova senha de acesso. Ao fazer login, você será convidado novamente a alterar
+        para uma senha de sua preferência.
+      </p>
+      <div class="field mt-3">
+        <label for="emailRecuperacao">E-mail</label>
+        <input id="emailRecuperacao" pInputText type="email" formControlName="email" />
+      </div>
+      <button pButton label="" class="mt-3 w-full"
+        [disabled]="emailRecuperacaoForm.invalid || loadingRecuperacao" (click)="solicitarNovaSenha()">
+        <ng-container *ngIf="!loadingRecuperacao">
+          Solicitar Nova Senha
+        </ng-container>
+        <ng-container *ngIf="loadingRecuperacao">
+          <i class="pi pi-spin pi-spinner"></i>
+          Enviando...
+        </ng-container>
+      </button>
+    </form>
+  </p-dialog>
 </div>

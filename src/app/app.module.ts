@@ -13,6 +13,11 @@ import { TableModule } from 'primeng/table';
 import { TooltipModule } from 'primeng/tooltip';
 import { ProgressSpinnerModule } from 'primeng/progressspinner';
 import { CardModule } from 'primeng/card';
+import { MultiSelectModule } from 'primeng/multiselect';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { DialogModule } from 'primeng/dialog';
+import { CheckboxModule } from 'primeng/checkbox';
+
 
 @NgModule({
   declarations: [
@@ -32,7 +37,11 @@ import { CardModule } from 'primeng/card';
     FormsModule,
     ProgressSpinnerModule,
     TooltipModule,
-    CardModule
+    CardModule,
+    MultiSelectModule,
+    BrowserAnimationsModule,
+    DialogModule,
+    CheckboxModule 
   ],
   providers: [],
   bootstrap: [AppComponent]

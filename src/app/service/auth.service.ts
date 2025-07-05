@@ -5,6 +5,8 @@ import { Observable } from 'rxjs';
 interface LoginResponse {
   token: string;
   tokenType: string;
+  firstAccess: boolean;
+  termsAccepted: boolean;
 }
 
 @Injectable({
@@ -30,5 +32,12 @@ export class AuthService {
 
   isAuthenticated(): boolean {
     return !!this.getToken();
+  }
+
+  solicitarRecuperacaoSenha(email: string): Observable<void> {
+    return this.http.post<void>(
+      `${this.apiUrl}/recover-password`,
+      { email }
+    );
   }
 }

@@ -35,6 +35,12 @@
             <div class="col-12 md:col-2">
                 <input pInputText type="number" [(ngModel)]="trafegoMax" placeholder="Tráfego Max." />
             </div>
+            <div class="col-12 md:col-2">
+                <p-multiSelect [options]="plataformas" [(ngModel)]="plataformasSelecionadas" optionLabel="label"
+                    optionValue="value" defaultLabel="Todas as plataformas" placeholder="Selecione plataformas"
+                    display="chip">
+                </p-multiSelect>
+            </div>
             <div class="col-12 flex justify-content-end mt-3 gap-2">
                 <div style="display: flex; gap: 0.5rem;">
                     <button pButton label="Filtrar" icon="pi pi-filter" (click)="filter()"
@@ -58,7 +64,7 @@
                 <th>Moeda</th>
                 <th>Comissão Média USD/EUR</th>
                 <th>Comissão Média R$</th>
-                <th>Tráfego Total</th>
+                <th>Tráfego Total (30 dias)</th>
                 <th>Comp. Mês Ant.</th>
                 <th>Comp. Penult. Mês</th>
                 <th>Top 1 País (%)</th>
@@ -93,4 +99,73 @@
             </tr>
         </ng-template>
     </p-table>
+
+    <p-dialog [(visible)]="mostrarModalTermos" [modal]="true" [closable]="false" [dismissableMask]="false"
+        [draggable]="false" [resizable]="false" [style]="{width: '90vw', maxWidth: '600px'}"
+        contentStyle="max-height:70vh; overflow:auto;" [baseZIndex]="10000" [showHeader]="false"
+        styleClass="custom-dialog-blur">
+
+        <div class="p-fluid">
+            <h2>Termos de Uso</h2>
+            <p>
+                O uso da plataforma DataHound implica na aceitação integral destes Termos de Uso. Ao acessar e utilizar
+                nossos serviços, você concorda com as condições descritas abaixo:
+            </p>
+            <ol>
+                <li><strong>Sigilo de Acesso:</strong> Você é responsável por manter a confidencialidade de seu login e
+                    senha. O compartilhamento de credenciais com terceiros é estritamente proibido.</li>
+                <li><strong>Proteção de Dados e LGPD:</strong> Seus dados pessoais são tratados com segurança e
+                    confidencialidade, conforme a Lei Geral de Proteção de Dados (Lei nº 13.709/2018). Não
+                    compartilhamos informações coletadas fora da plataforma sem sua autorização prévia, salvo por
+                    obrigação legal.</li>
+                <li><strong>Uso Permitido:</strong> Esta plataforma é destinada exclusivamente para fins profissionais
+                    relacionados à análise e gestão de informações disponibilizadas. É proibida qualquer forma de
+                    utilização que viole leis ou regulamentos vigentes.</li>
+                <li><strong>Responsabilidades:</strong> O usuário compromete-se a utilizar a plataforma de forma ética e
+                    responsável. A DataHound não se responsabiliza por eventuais prejuízos decorrentes do uso inadequado
+                    dos serviços.</li>
+                <li><strong>Aceite dos Termos:</strong> O uso da plataforma requer a leitura e aceitação destes termos.
+                    O não aceite impossibilita a utilização dos serviços.</li>
+            </ol>
+            <div class="field-checkbox mt-3">
+                <p-checkbox [(ngModel)]="aceitouTermos" [binary]="true" inputId="aceiteTermos">
+                </p-checkbox>
+                <label for="aceiteTermos">Declaro que li e aceito os Termos de Uso</label>
+            </div>
+
+            <button pButton label="Concordo" [disabled]="!aceitouTermos" (click)="confirmarAceiteTermos()"
+                class="mt-3 w-full"></button>
+        </div>
+    </p-dialog>
+
+    <p-dialog [(visible)]="mostrarModalPrimeiroAcesso" [modal]="true" [closable]="false" [dismissableMask]="false"
+        [draggable]="false" [resizable]="false" [style]="{width: '90vw', maxWidth: '500px'}"
+        contentStyle="max-height:70vh; overflow:auto;" [baseZIndex]="10000" [showHeader]="false"
+        styleClass="custom-dialog-blur">
+
+        <div class="p-fluid">
+            <h2>Bem-vindo ao DataHound!</h2>
+            <p>
+                É muito bom ter você aqui. Este é seu primeiro acesso. Para manter sua conta segura, por favor altere
+                sua senha.
+            </p>
+
+            <div class="field mt-3">
+                <label for="novaSenha">Nova Senha</label>
+                <input id="novaSenha" pInputText type="password" [(ngModel)]="novaSenha" />
+            </div>
+
+            <div class="field mt-2">
+                <label for="confirmarSenha">Confirme a Senha</label>
+                <input id="confirmarSenha" pInputText type="password" [(ngModel)]="confirmarSenha" />
+            </div>
+
+            <button pButton label="Alterar Senha" class="mt-3 w-full"
+                [disabled]="!novaSenha || !confirmarSenha || novaSenha !== confirmarSenha"
+                (click)="alterarSenhaPrimeiroAcesso()">
+            </button>
+        </div>
+    </p-dialog>
+
+
 </div>

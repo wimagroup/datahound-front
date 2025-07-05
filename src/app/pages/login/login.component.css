@@ -10,7 +10,7 @@
   
   .login-left {
     flex: 1;
-    background: url('/assets/login-background.jpeg') no-repeat center center;
+    background: url('/assets/login-background.png') no-repeat center center;
     background-size: cover;
   }
   

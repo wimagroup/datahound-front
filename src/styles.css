@@ -38,14 +38,14 @@ body {
 
 .dark-mode .p-datatable,
 .dark-mode .p-datatable-wrapper,
-.dark-mode .p-datatable .p-datatable-thead > tr > th,
-.dark-mode .p-datatable .p-datatable-tbody > tr > td {
+.dark-mode .p-datatable .p-datatable-thead>tr>th,
+.dark-mode .p-datatable .p-datatable-tbody>tr>td {
     background-color: #2c2c2c !important;
     color: #f0f0f0 !important;
     border-color: #444 !important;
 }
 
-.dark-mode .p-datatable .p-datatable-tbody > tr:hover {
+.dark-mode .p-datatable .p-datatable-tbody>tr:hover {
     background-color: #3a3a3a !important;
 }
 
@@ -53,4 +53,9 @@ body {
     background-color: #2c2c2c;
     color: #f0f0f0;
     border-top: 1px solid #444;
+}
+
+::ng-deep .custom-dialog-blur .p-dialog-mask {
+    backdrop-filter: blur(4px);
+    background-color: rgba(0, 0, 0, 0.4);
 }
