@@ -1,98 +1,104 @@
 .login-container {
-    height: 100vh;
-    display: flex;
-  }
-  
-  .login-grid {
-    display: flex;
-    flex: 1;
-  }
-  
-  .login-left {
-    flex: 1;
-    background: url('/assets/login-background.png') no-repeat center center;
-    background-size: cover;
-  }
-  
-  .login-right {
-    flex: 1;
-    display: flex;
+  height: 100vh;
+  width: 100%;
+  background: url('/assets/login-background.jpg') no-repeat center center;
+  background-size: cover;
+  display: flex;
+  justify-content: flex-end; 
+  align-items: center;
+  padding: 2rem;
+  position: relative; 
+}
+
+.form-wrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+  max-width: 500px;
+  margin-right: 6rem;
+}
+
+.logo {
+  max-width: 550px;
+  margin-bottom: 1rem;
+}
+
+.form-card {
+  background-color: rgba(255, 255, 255, 0.15); 
+  backdrop-filter: blur(10px); 
+  padding: 2rem;
+  border-radius: 12px;
+  box-shadow: 0 4px 20px rgba(0,0,0,0.2);
+  width: 100%;
+  text-align: center;
+}
+
+.title {
+  font-weight: 600;
+  margin-bottom: 2rem;
+  color: #ffffff; 
+}
+
+.field {
+  margin-bottom: 1.5rem;
+  text-align: left;
+}
+
+.field label {
+  display: block;
+  margin-bottom: 0.5rem;
+  font-size: 0.95rem;
+  color: #ffffff;
+}
+
+input[pInputText] {
+  width: 100%;
+  padding: 0.75rem 1rem;
+  border: 1px solid #ccc;
+  border-radius: 25px;
+  font-size: 1rem;
+  box-sizing: border-box;
+}
+
+.p-button.p-button-primary {
+  background-color: #e98024;
+  border-color: #e98024;
+}
+
+.p-button.p-button-primary:hover {
+  background-color: #d5711f;
+  border-color: #d5711f;
+}
+
+.actions {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 1rem;
+  width: 100%;
+}
+
+.actions a {
+  font-size: 0.9rem;
+  text-decoration: none;
+  color: #e98024;
+}
+
+.actions a:hover {
+  text-decoration: underline;
+}
+
+.footer {
+  color: #ffffff;
+  font-size: 0.85rem;
+  margin-top: 1.5rem;
+  text-align: center;
+}
+
+@media (max-width: 768px) {
+  .login-container {
     justify-content: center;
-    align-items: center;
-    background-color: #f2f4f7;
-    padding: 2rem;
+    padding: 1rem;
   }
-  
-  .form-card {
-    background-color: #ffffff;
-    padding: 2.5rem;
-    border-radius: 12px;
-    box-shadow: 0 4px 20px rgba(0,0,0,0.1);
-    width: 100%;
-    max-width: 600px;
-    text-align: center;
-  }
-  
-  .logo {
-    max-width: 150px;
-    margin-bottom: 1.5rem;
-  }
-  
-  .title {
-    font-weight: 600;
-    margin-bottom: 2rem;
-    color: #333;
-  }
-  
-  .field {
-    margin-bottom: 1.5rem;
-    text-align: left;
-  }
-  
-  .field label {
-    display: block;
-    margin-bottom: 0.5rem;
-    font-size: 0.95rem;
-    color: #555;
-  }
-  
-  input[pInputText] {
-    width: 100%;
-    padding: 0.75rem 1rem;
-    border: 1px solid #ccc;
-    border-radius: 25px;
-    font-size: 1rem;
-    box-sizing: border-box;
-  }
-  
-  .actions {
-    display: flex;
-    justify-content: space-between;
-    margin-top: 1rem;
-  }
-  
-  .actions a {
-    font-size: 0.9rem;
-    text-decoration: none;
-    color: #007ad9;
-  }
-  
-  .actions a:hover {
-    text-decoration: underline;
-  }
-  
-  @media (max-width: 768px) {
-    .login-grid {
-      flex-direction: column;
-    }
-    .login-left,
-    .login-right {
-      flex: none;
-      width: 100%;
-      min-height: 200px;
-    }
-    .form-card {
-      margin-top: 2rem;
-    }
-  }
-  
+}
