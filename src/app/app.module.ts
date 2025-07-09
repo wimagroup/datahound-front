@@ -17,6 +17,7 @@ import { MultiSelectModule } from 'primeng/multiselect';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { DialogModule } from 'primeng/dialog';
 import { CheckboxModule } from 'primeng/checkbox';
+import { Dropdown, DropdownModule } from 'primeng/dropdown';
 
 
 @NgModule({
@@ -41,7 +42,8 @@ import { CheckboxModule } from 'primeng/checkbox';
     MultiSelectModule,
     BrowserAnimationsModule,
     DialogModule,
-    CheckboxModule 
+    CheckboxModule,
+    DropdownModule
   ],
   providers: [],
   bootstrap: [AppComponent]

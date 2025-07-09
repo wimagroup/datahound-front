@@ -25,6 +25,15 @@ export class DashboardComponent implements OnInit {
   mostrarModalPrimeiroAcesso: boolean = false;
   novaSenha: string = '';
   confirmarSenha: string = '';
+  pageSize: number = 30;
+  page: number = 0;
+  totalElements: number = 0;
+
+  pageSizeOptions = [
+    { label: '30 itens por página', value: 30 },
+    { label: '50 itens por página', value: 50 },
+    { label: '100 itens por página', value: 100 }
+  ];
 
   plataformas = [
     { label: 'Buygoods', value: 'Buygoods' },
@@ -68,6 +77,11 @@ export class DashboardComponent implements OnInit {
     });
   }
 
+  loadLazy(event: any) {
+    this.page = event.first / event.rows;
+    this.pageSize = event.rows;
+    this.filter();
+  }
 
   loadData() {
     this.loading = true;
@@ -80,10 +94,12 @@ export class DashboardComponent implements OnInit {
       trafegoMax: null,
       plataformas: null
     };
-    this.adsHunterService.filterProducts(filters).subscribe({
+    this.adsHunterService.filterProducts(filters, this.page, this.pageSize).subscribe({
       next: data => {
-        this.products = data;
-        this.filteredProducts = data;
+        this.products = data.content;
+        this.filteredProducts = data.content;
+        this.totalElements = data.totalElements;
+        this.page = data.number;
         this.loading = false;
       },
       error: err => {
@@ -118,9 +134,11 @@ export class DashboardComponent implements OnInit {
 
     this.loading = true;
 
-    this.adsHunterService.filterProducts(filters).subscribe({
+    this.adsHunterService.filterProducts(filters, this.page, this.pageSize).subscribe({
       next: data => {
-        this.filteredProducts = data;
+        this.products = data.content;
+        this.totalElements = data.totalElements;
+        this.page = data.number;
         this.loading = false;
       },
       error: err => {
@@ -130,6 +148,11 @@ export class DashboardComponent implements OnInit {
     });
   }
 
+  onPageSizeChange(event: any) {
+    this.page = 0; 
+    this.filter();
+  }  
+
   clearFilters() {
     this.comissaoMin = undefined;
     this.comissaoMax = undefined;
@@ -137,8 +160,16 @@ export class DashboardComponent implements OnInit {
     this.comissaoMaxReais = undefined;
     this.trafegoMin = undefined;
     this.trafegoMax = undefined;
+    this.page = 0;
     this.plataformasSelecionadas = [];
     this.loadData();
+
+  }
+
+  onPageChange(event: any) {
+    this.page = event.first / event.rows;
+    this.pageSize = event.rows;
+    this.filter();
   }
 
   onLogout(): void {

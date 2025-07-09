@@ -1,7 +1,6 @@
 <div class="dashboard-container">
     <div class="header">
-        <img src="assets/logo.png" class="logo" alt="Logo" />
-        <h1 class="title">DataHound</h1>
+        <img [src]="darkMode ? 'assets/logo-dark.png' : 'assets/logo.png'" class="logo" alt="Logo" width="360"/>
         <div class="actions">
             <button pButton type="button" [icon]="darkMode ? 'pi pi-sun' : 'pi pi-moon'" (click)="toggleTheme()"
                 class="p-button-text p-button-plain p-mr-2" aria-label="Toggle Theme">
@@ -13,7 +12,7 @@
 
     </div>
 
-    <h2 class="subtitle">Seu hub definitivo de inteligência para afiliados</h2>
+    <h2 class="subtitle">Utilize os filtros abaixo para encontrar os melhores produtos</h2>
 
     <p-card style="padding: 1.5rem;">
         <div class="p-fluid grid">
@@ -52,8 +51,16 @@
         </div>
     </p-card>
 
-    <p-table [value]="filteredProducts" [paginator]="true" [rows]="10" [loading]="loading" [responsive]="true"
-        emptyMessage="Nenhum dado encontrado" sortMode="multiple" [styleClass]="darkMode ? 'dark-table' : ''">
+    <div class="flex justify-content-end mb-4">
+        <p-dropdown [options]="pageSizeOptions" [(ngModel)]="pageSize" (onChange)="onPageSizeChange($event)"
+            optionLabel="label" optionValue="value" placeholder="Itens por página" styleClass="w-16rem">
+        </p-dropdown>
+    </div>
+
+    <p-table [value]="products" [paginator]="true" [rows]="pageSize" [totalRecords]="totalElements" [loading]="loading"
+        [lazy]="true" (onLazyLoad)="loadLazy($event)" [responsive]="true" emptyMessage="Nenhum dado encontrado"
+        sortMode="multiple" [styleClass]="darkMode ? 'dark-table' : ''">
+
         <ng-template pTemplate="header">
             <tr>
                 <th pSortableColumn="plataforma">Plataforma <p-sortIcon field="plataforma"></p-sortIcon></th>
