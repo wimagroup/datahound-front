@@ -23,3 +23,15 @@
   color: #dc3545;
   font-weight: 500;
 }
+
+:host ::ng-deep .compact-table .p-datatable-tbody > tr > td,
+:host ::ng-deep .compact-table .p-datatable-thead > tr > th {
+  padding-top: 0.05rem !important;
+  padding-bottom: 0.05rem !important;
+  font-size: 0.75rem !important;
+}
+
+:host ::ng-deep .small-text * {
+  font-size: 0.70rem !important;
+}
+

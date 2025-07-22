@@ -1,6 +1,6 @@
 <div class="dashboard-container">
     <div class="header">
-        <img [src]="darkMode ? 'assets/logo-dark.png' : 'assets/logo.png'" class="logo" alt="Logo" width="360"/>
+        <img [src]="darkMode ? 'assets/logo-dark.png' : 'assets/logo.png'" class="logo" alt="Logo" width="360" />
         <div class="actions">
             <button pButton type="button" [icon]="darkMode ? 'pi pi-sun' : 'pi pi-moon'" (click)="toggleTheme()"
                 class="p-button-text p-button-plain p-mr-2" aria-label="Toggle Theme">
@@ -14,97 +14,124 @@
 
     <h2 class="subtitle">Utilize os filtros abaixo para encontrar os melhores produtos</h2>
 
-    <p-card style="padding: 1.5rem;">
-        <div class="p-fluid grid">
-            <div class="col-12 md:col-2">
-                <input pInputText type="number" [(ngModel)]="comissaoMin" placeholder="Comissão Min. USD/EUR" />
-            </div>
-            <div class="col-12 md:col-2">
-                <input pInputText type="number" [(ngModel)]="comissaoMax" placeholder="Comissão Max. USD/EUR" />
-            </div>
-            <div class="col-12 md:col-2">
-                <input pInputText type="number" [(ngModel)]="comissaoMinReais" placeholder="Comissão Min. R$" />
-            </div>
-            <div class="col-12 md:col-2">
-                <input pInputText type="number" [(ngModel)]="comissaoMaxReais" placeholder="Comissão Max. R$" />
-            </div>
-            <div class="col-12 md:col-2">
-                <input pInputText type="number" [(ngModel)]="trafegoMin" placeholder="Tráfego Min." />
-            </div>
-            <div class="col-12 md:col-2">
-                <input pInputText type="number" [(ngModel)]="trafegoMax" placeholder="Tráfego Max." />
-            </div>
-            <div class="col-12 md:col-2">
-                <p-multiSelect [options]="plataformas" [(ngModel)]="plataformasSelecionadas" optionLabel="label"
-                    optionValue="value" defaultLabel="Todas as plataformas" placeholder="Selecione plataformas"
-                    display="chip">
-                </p-multiSelect>
-            </div>
-            <div class="col-12 flex justify-content-end mt-3 gap-2">
-                <div style="display: flex; gap: 0.5rem;">
-                    <button pButton label="Filtrar" icon="pi pi-filter" (click)="filter()"
-                        style="width: auto;"></button>
-                    <button pButton label="Limpar" icon="pi pi-times" (click)="clearFilters()"
-                        class="p-button-secondary" style="width: auto;"></button>
+    <p-card styleClass="mb-3 small-text">
+        <div class="p-fluid">
+            <div class="flex flex-wrap gap-2">
+                <div>
+                    <input pInputText type="text" [(ngModel)]="name" placeholder="Nome do produto" />
                 </div>
+                <div>
+                    <input pInputText type="number" [(ngModel)]="comissaoMin" placeholder="Comissão Min. USD/EUR" />
+                </div>
+                <div>
+                    <input pInputText type="number" [(ngModel)]="comissaoMax" placeholder="Comissão Max. USD/EUR" />
+                </div>
+                <div>
+                    <input pInputText type="number" [(ngModel)]="comissaoMinReais" placeholder="Comissão Min. R$" />
+                </div>
+                <div>
+                    <input pInputText type="number" [(ngModel)]="comissaoMaxReais" placeholder="Comissão Max. R$" />
+                </div>
+                <div>
+                    <input pInputText type="number" [(ngModel)]="trafegoMin" placeholder="Tráfego Min." />
+                </div>
+                <div>
+                    <input pInputText type="number" [(ngModel)]="trafegoMax" placeholder="Tráfego Max." />
+                </div>
+                <div>
+                    <p-multiSelect [options]="plataformas" [(ngModel)]="plataformasSelecionadas" optionLabel="label"
+                        optionValue="value" defaultLabel="Todas as plataformas" placeholder="Selecione plataformas"
+                        display="chip">
+                    </p-multiSelect>
+                </div>
+                <div>
+                    <p-dropdown [options]="moedas" [(ngModel)]="moedaSelecionada" optionLabel="label"
+                        optionValue="value" placeholder="Todas as moedas">
+                    </p-dropdown>
+                </div>
+            </div>
+            <div class="flex justify-content-end mt-3 gap-2">
+                <button pButton label="Filtrar" icon="pi pi-filter" (click)="filter()" style="width: auto;"></button>
+                <button pButton label="Limpar" icon="pi pi-times" (click)="clearFilters()" class="p-button-secondary"
+                    style="width: auto;"></button>
             </div>
         </div>
     </p-card>
 
-    <div class="flex justify-content-end mb-4">
+    <div class="flex justify-content-end align-items-center gap-3 mb-3">
+        <button pButton [label]="visualizarFavoritos ? 'Todos os produtos' : 'Meus favoritos'" icon="pi pi-star"
+            [class.p-button-warning]="visualizarFavoritos" class="p-button-sm" (click)="toggleVisualizarFavoritos()">
+        </button>
+
         <p-dropdown [options]="pageSizeOptions" [(ngModel)]="pageSize" (onChange)="onPageSizeChange($event)"
-            optionLabel="label" optionValue="value" placeholder="Itens por página" styleClass="w-16rem">
+            optionLabel="label" optionValue="value" styleClass="p-dropdown-sm">
         </p-dropdown>
     </div>
 
-    <p-table [value]="products" [paginator]="true" [rows]="pageSize" [totalRecords]="totalElements" [loading]="loading"
-        [lazy]="true" (onLazyLoad)="loadLazy($event)" [responsive]="true" emptyMessage="Nenhum dado encontrado"
-        sortMode="multiple" [styleClass]="darkMode ? 'dark-table' : ''">
+
+    <p-card header="Selecione os campos para visualização" styleClass="mb-3 small-text">
+        <div class="flex flex-wrap gap-3">
+            <div *ngFor="let col of columns" class="flex align-items-center">
+                <p-checkbox [(ngModel)]="col.visible" binary="true" inputId="{{ col.field }}"></p-checkbox>
+                <label for="{{ col.field }}" class="ml-2">{{ col.header }}</label>
+            </div>
+        </div>
+    </p-card>
+
+    <p-table [value]="products" [lazy]="true" [paginator]="true" [rows]="pageSize" [totalRecords]="totalElements"
+        [loading]="loading" (onLazyLoad)="loadLazy($event)" [responsive]="true" emptyMessage="Nenhum dado encontrado"
+        sortMode="single" (onSort)="onSort($event)" [scrollable]="true" scrollHeight="auto"
+        [styleClass]="(darkMode ? 'dark-table ' : '') + 'compact-table'">
+
+        <ng-template pTemplate="colgroup">
+            <colgroup>
+                <col /> <!-- Coluna de favoritos -->
+                <col *ngFor="let col of selectedColumns" />
+            </colgroup>
+        </ng-template>
 
         <ng-template pTemplate="header">
             <tr>
-                <th pSortableColumn="plataforma">Plataforma <p-sortIcon field="plataforma"></p-sortIcon></th>
-                <th pSortableColumn="produto">Produto <p-sortIcon field="produto"></p-sortIcon></th>
-                <th pSortableColumn="produtoId">Produto ID <p-sortIcon field="produtoId"></p-sortIcon></th>
-                <th>Página de Vendas</th>
-                <th>Domínio</th>
-                <th>Moeda</th>
-                <th>Comissão Média USD/EUR</th>
-                <th>Comissão Média R$</th>
-                <th>Tráfego Total (30 dias)</th>
-                <th>Comp. Mês Ant.</th>
-                <th>Comp. Penult. Mês</th>
-                <th>Top 1 País (%)</th>
-                <th>Top 2 País (%)</th>
-                <th>Top 3 País (%)</th>
+                <th style="width: 40px;"></th> <!-- Cabeçalho da estrela -->
+                <th *ngFor="let col of selectedColumns" [pSortableColumn]="col.field">
+                    <span style="display: inline-flex; align-items: center; gap: 0.25rem;">
+                        {{ col.header }}
+                        <p-sortIcon [field]="col.field"></p-sortIcon>
+                    </span>
+                </th>
             </tr>
         </ng-template>
+
         <ng-template pTemplate="body" let-product>
             <tr>
-                <td>{{ product.plataforma }}</td>
-                <td>{{ product.produto }}</td>
-                <td>{{ product.produtoId }}</td>
-                <td><a [href]="product.paginaVendas" target="_blank">Acessar</a></td>
-                <td>{{ product.dominio }}</td>
-                <td>{{ product.moeda }}</td>
-                <td>{{ product.comissaoMediaUsdEur }}</td>
-                <td>{{ product.comissaoMediaReais }}</td>
-                <td>{{ product.trafegoTotal }}</td>
-                <td>
-                    <span [ngClass]="getComparisonClass(product.comparacaoMesAnterior)">
-                        {{ product.comparacaoMesAnterior }}
-                    </span>
+                <td style="text-align: center;">
+                    <i class="pi" [ngClass]="product.favoritado ? 'pi-star-fill' : 'pi-star'"
+                        [style.color]="product.favoritado ? '#facc15' : '#9ca3af'"
+                        style="cursor: pointer; font-size: 1.2rem;" (click)="toggleFavorito(product)">
+                    </i>
                 </td>
-                <td>
-                    <span [ngClass]="getComparisonClass(product.comparacaoPenultimoMes)">
-                        {{ product.comparacaoPenultimoMes }}
-                    </span>
+
+                <td *ngFor="let col of selectedColumns">
+                    <ng-container [ngSwitch]="col.field">
+                        <a *ngSwitchCase="'paginaVendas'" [href]="product.paginaVendas" target="_blank">
+                            Acessar
+                        </a>
+                        <span *ngSwitchCase="'comparacaoMesAnterior'"
+                            [ngClass]="getComparisonClass(product.comparacaoMesAnterior)">
+                            {{ product.comparacaoMesAnterior }}
+                        </span>
+                        <span *ngSwitchCase="'comparacaoPenultimoMes'"
+                            [ngClass]="getComparisonClass(product.comparacaoPenultimoMes)">
+                            {{ product.comparacaoPenultimoMes }}
+                        </span>
+                        <span *ngSwitchDefault>
+                            {{ product[col.field] }}
+                        </span>
+                    </ng-container>
                 </td>
-                <td>{{ product.top1Pais }} ({{ product.top1Percentual }})</td>
-                <td>{{ product.top2Pais }} ({{ product.top2Percentual }})</td>
-                <td>{{ product.top3Pais }} ({{ product.top3Percentual }})</td>
             </tr>
         </ng-template>
+
     </p-table>
 
     <p-dialog [(visible)]="mostrarModalTermos" [modal]="true" [closable]="false" [dismissableMask]="false"

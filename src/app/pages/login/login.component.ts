@@ -82,7 +82,9 @@ export class LoginComponent {
       });
       return;
     }
-
+    localStorage.removeItem('authToken');
+    localStorage.removeItem('firstAccess');
+    localStorage.removeItem('termsAccepted');
     this.loading = true;
     const { email, password } = this.loginForm.value;
 

@@ -21,4 +21,14 @@ export class AdsHunterService {
   private getAuthToken(): string {
     return localStorage.getItem('authToken') || '';
   }
+
+  toggleFavorito(produtoId: number): Observable<void> {
+    const headers = new HttpHeaders().set('Authorization', this.getAuthToken());
+    return this.http.post<void>(
+      `${environment.apiUrl}/products/${produtoId}/toggle-favorito`,
+      {},
+      { headers }
+    );
+  }
+  
 }

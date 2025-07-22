@@ -2,7 +2,6 @@ export interface AdsHunterProduct {
     id: number;
     plataforma: string;
     produto: string;
-    produtoId: string;
     paginaVendas: string;
     dominio: string;
     moeda: string;
@@ -17,5 +16,6 @@ export interface AdsHunterProduct {
     top2Percentual: string;
     top3Pais: string;
     top3Percentual: string;
+    favoritado: boolean;
   }
   
