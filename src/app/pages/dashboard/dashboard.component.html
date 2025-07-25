@@ -20,23 +20,30 @@
                 <div>
                     <input pInputText type="text" [(ngModel)]="name" placeholder="Nome do produto" />
                 </div>
+
                 <div>
                     <input pInputText type="number" [(ngModel)]="comissaoMin" placeholder="Comissão Min. USD/EUR" />
                 </div>
+
                 <div>
                     <input pInputText type="number" [(ngModel)]="comissaoMax" placeholder="Comissão Max. USD/EUR" />
                 </div>
+
                 <div>
                     <input pInputText type="number" [(ngModel)]="comissaoMinReais" placeholder="Comissão Min. R$" />
                 </div>
+
                 <div>
                     <input pInputText type="number" [(ngModel)]="comissaoMaxReais" placeholder="Comissão Max. R$" />
                 </div>
+
                 <div>
-                    <input pInputText type="number" [(ngModel)]="trafegoMin" placeholder="Tráfego Min." />
+                    <input pInputText type="text" [ngModel]="formatNumber(trafegoMin)"
+                        (ngModelChange)="trafegoMin = parseNumber($event)" placeholder="Tráfego Min." />
                 </div>
                 <div>
-                    <input pInputText type="number" [(ngModel)]="trafegoMax" placeholder="Tráfego Max." />
+                    <input pInputText type="text" [ngModel]="formatNumber(trafegoMax)"
+                        (ngModelChange)="trafegoMax = parseNumber($event)" placeholder="Tráfego Max." />
                 </div>
                 <div>
                     <p-multiSelect [options]="plataformas" [(ngModel)]="plataformasSelecionadas" optionLabel="label"
@@ -48,6 +55,10 @@
                     <p-dropdown [options]="moedas" [(ngModel)]="moedaSelecionada" optionLabel="label"
                         optionValue="value" placeholder="Todas as moedas">
                     </p-dropdown>
+                </div>
+                <div class="flex align-items-center">
+                    <p-checkbox [(ngModel)]="ignorarTrafegoZerado" binary="true" inputId="trafegoZerado"></p-checkbox>
+                    <label for="trafegoZerado" class="ml-2">Ignorar produtos com tráfego zerado</label>
                 </div>
             </div>
             <div class="flex justify-content-end mt-3 gap-2">
@@ -79,24 +90,30 @@
     </p-card>
 
     <p-table [value]="products" [lazy]="true" [paginator]="true" [rows]="pageSize" [totalRecords]="totalElements"
-        [loading]="loading" (onLazyLoad)="loadLazy($event)" [responsive]="true" emptyMessage="Nenhum dado encontrado"
-        sortMode="single" (onSort)="onSort($event)" [scrollable]="true" scrollHeight="auto"
+        [loading]="loading" (onLazyLoad)="loadLazy($event)" [responsive]="true" [sortField]="sortField"
+        [sortOrder]="sortOrder" emptyMessage="Nenhum dado encontrado" [scrollable]="true" scrollHeight="auto"
         [styleClass]="(darkMode ? 'dark-table ' : '') + 'compact-table'">
 
         <ng-template pTemplate="colgroup">
             <colgroup>
-                <col /> <!-- Coluna de favoritos -->
+                <col />
                 <col *ngFor="let col of selectedColumns" />
             </colgroup>
         </ng-template>
 
         <ng-template pTemplate="header">
             <tr>
-                <th style="width: 40px;"></th> <!-- Cabeçalho da estrela -->
-                <th *ngFor="let col of selectedColumns" [pSortableColumn]="col.field">
-                    <span style="display: inline-flex; align-items: center; gap: 0.25rem;">
+                <th style="width: 40px;"></th>
+                <th *ngFor="let col of selectedColumns">
+                    <span style="display: inline-flex; align-items: center; gap: 0.25rem; cursor: pointer;"
+                        (click)="sortBy(col.field)">
                         {{ col.header }}
-                        <p-sortIcon [field]="col.field"></p-sortIcon>
+                        <i class="pi" [ngClass]="{
+                            'pi-sort-amount-up-alt': sortField === col.field && sortOrder === 1,
+                            'pi-sort-amount-down': sortField === col.field && sortOrder === -1,
+                            'pi-sort-alt': sortField !== col.field
+                        }">
+                        </i>
                     </span>
                 </th>
             </tr>
@@ -133,6 +150,7 @@
         </ng-template>
 
     </p-table>
+
 
     <p-dialog [(visible)]="mostrarModalTermos" [modal]="true" [closable]="false" [dismissableMask]="false"
         [draggable]="false" [resizable]="false" [style]="{width: '90vw', maxWidth: '600px'}"

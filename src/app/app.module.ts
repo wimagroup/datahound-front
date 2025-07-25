@@ -43,7 +43,7 @@ import { Dropdown, DropdownModule } from 'primeng/dropdown';
     BrowserAnimationsModule,
     DialogModule,
     CheckboxModule,
-    DropdownModule
+    DropdownModule,
   ],
   providers: [],
   bootstrap: [AppComponent]

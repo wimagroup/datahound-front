@@ -33,6 +33,9 @@ export class DashboardComponent implements OnInit {
   totalElements: number = 0;
   moedaSelecionada: string = 'TODAS';
   ignoreNextLazyLoad = false;
+  ignorarTrafegoZerado: boolean = true;
+  sortField: string = 'trafegoTotal';
+  sortOrder: number = -1;
 
   moedas = [
     { label: 'Todas as moedas', value: 'TODAS' },
@@ -55,7 +58,7 @@ export class DashboardComponent implements OnInit {
     { label: 'MediaScalers', value: 'MediaScalers' },
     { label: 'SmartAdv', value: 'SmartAdv' },
     { label: 'SmashLoud', value: 'SmashLoud' },
-    { label: "Jvzoo", value: 'Jvzoo'}
+    { label: "Jvzoo", value: 'Jvzoo' }
   ];
 
   columns = [
@@ -93,50 +96,21 @@ export class DashboardComponent implements OnInit {
         console.error('Erro ao favoritar produto:', err);
       }
     });
-  } 
+  }
 
-  onSort(event: SortEvent) {
-    this.ignoreNextLazyLoad = true;
-    const field = event.field;
-    const order = event.order ?? 1;
 
-    if (!field) {
-      return;
+  sortBy(field: string) {
+    if (this.sortField === field) {
+      this.sortOrder = -this.sortOrder;
+    } else {
+      this.sortField = field;
+      this.sortOrder = 1;
     }
 
-    const numericFields = [
-      'produtoId',
-      'trafegoTotal',
-      'comissaoMediaUsdEur',
-      'comissaoMediaReais'
-    ];
-
-    const percentageFields = [
-      'comparacaoMesAnterior',
-      'comparacaoPenultimoMes'
-    ];
-
-    this.products.sort((a, b) => {
-      let value1 = (a as any)[field];
-      let value2 = (b as any)[field];
-
-      if (numericFields.includes(field)) {
-        const n1 = parseFloat((value1 ?? '').toString().replace(/[^\d.,-]/g, '').replace(',', '.')) || 0;
-        const n2 = parseFloat((value2 ?? '').toString().replace(/[^\d.,-]/g, '').replace(',', '.')) || 0;
-        return (n1 - n2) * order;
-      }
-
-      if (percentageFields.includes(field)) {
-        const p1 = parseFloat((value1 ?? '').toString().replace('%', '').replace(',', '.')) || 0;
-        const p2 = parseFloat((value2 ?? '').toString().replace('%', '').replace(',', '.')) || 0;
-        return (p1 - p2) * order;
-      }
-
-      if (value1 == null) value1 = '';
-      if (value2 == null) value2 = '';
-      return value1.toString().localeCompare(value2.toString()) * order;
-    });
+    this.filter();
   }
+
+
 
   plataformasSelecionadas: string[] = [];
   loading: boolean = false;
@@ -170,14 +144,17 @@ export class DashboardComponent implements OnInit {
   }
 
   loadLazy(event: any) {
-    if (this.ignoreNextLazyLoad) {
-      this.ignoreNextLazyLoad = false;
-      return;
-    }
-    this.page = event.first / event.rows;
+    this.page = Math.floor(event.first / event.rows);
     this.pageSize = event.rows;
+    if (event.sortField !== undefined && event.sortField !== null) {
+      this.sortField = event.sortField;
+    }
+    if (event.sortOrder !== undefined && event.sortOrder !== null) {
+      this.sortOrder = event.sortOrder;
+    }
     this.filter();
   }
+
 
   loadData() {
     this.loading = true;
@@ -191,7 +168,10 @@ export class DashboardComponent implements OnInit {
       trafegoMin: null,
       trafegoMax: null,
       plataformas: null,
-      apenasFavoritos: this.visualizarFavoritos || null
+      apenasFavoritos: this.visualizarFavoritos || null,
+      ignorarTrafegoZerado: this.ignorarTrafegoZerado,
+      sortField: this.sortField || null,
+      sortOrder: this.sortOrder || 1
     };
     this.adsHunterService.filterProducts(filters, this.page, this.pageSize).subscribe({
       next: data => {
@@ -231,7 +211,10 @@ export class DashboardComponent implements OnInit {
       trafegoMin: this.trafegoMin || null,
       trafegoMax: this.trafegoMax || null,
       plataformas: this.plataformasSelecionadas.length ? this.plataformasSelecionadas : null,
-      apenasFavoritos: this.visualizarFavoritos || null
+      apenasFavoritos: this.visualizarFavoritos || null,
+      ignorarTrafegoZerado: this.ignorarTrafegoZerado,
+      sortField: this.sortField || null,
+      sortOrder: this.sortOrder || 1
     };
 
     this.loading = true;
@@ -264,16 +247,25 @@ export class DashboardComponent implements OnInit {
     this.comissaoMaxReais = undefined;
     this.trafegoMin = undefined;
     this.trafegoMax = undefined;
-    this.page = 0;
     this.plataformasSelecionadas = [];
     this.loadData();
 
   }
 
   onPageChange(event: any) {
-    this.page = event.first / event.rows;
+    this.page = Math.floor(event.first / event.rows);
     this.pageSize = event.rows;
-    this.filter();
+  }
+
+  formatNumber(value: number | undefined): string {
+    if (value === null || value === undefined) return '';
+    return value.toLocaleString('pt-BR');
+  }
+
+  parseNumber(value: string): number {
+    const cleaned = value.replace(/\./g, '').replace(',', '.');
+    const parsed = parseInt(cleaned, 10);
+    return isNaN(parsed) ? 0 : parsed;
   }
 
   onLogout(): void {
